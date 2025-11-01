@@ -329,7 +329,7 @@ button:disabled {
   margin-top: 5rem;
   padding: 0;
   border-top: 1px solid var(--border);
-  background: var(--bg-card);
+  background: transparent;
 }
 
 .footer-content {
@@ -546,6 +546,7 @@ button:disabled {
   transition: all 0.2s ease;
   margin-bottom: -2px;
   white-space: nowrap;
+  outline: none;
 }
 
 .tab-button:hover {
@@ -556,7 +557,17 @@ button:disabled {
 .tab-button.active {
   color: var(--primary);
   border-bottom-color: var(--primary);
-  background-color: rgba(229, 231, 235, 0.05);
+  background-color: transparent;
+}
+
+.tab-button:focus {
+  outline: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button.active:focus {
+  border-bottom-color: var(--primary);
 }
 
 /* Info Box */
@@ -785,7 +796,7 @@ button:disabled {
 }
 
 .connect-prompt {
-  background: rgba(229, 231, 235, 0.03);
+  background: transparent;
   border: 1px solid rgba(229, 231, 235, 0.1);
   border-radius: 12px;
   padding: 2.5rem;

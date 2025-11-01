@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useReadContract } from 'wagmi';
-import { formatEther } from 'viem';
+import { useReadContract, useAccount } from 'wagmi';
+import { formatEther, keccak256, toBytes } from 'viem';
 import { BUG_BOUNTY_REGISTRY_ABI, REGISTRY_ADDRESS, BountyStatus } from '../lib/contract';
 import { CreateBountyForm } from '../components/CreateBountyForm';
 import { SubmitFixForm } from '../components/SubmitFixForm';
@@ -26,8 +26,19 @@ const statusColors = {
 };
 
 export function Home() {
-  const [viewBountyId, setViewBountyId] = useState('1');
+  const [viewBountyId, setViewBountyId] = useState('');
   const [activeTab, setActiveTab] = useState<'browse' | 'create' | 'submit' | 'curator'>('browse');
+  const { address } = useAccount();
+
+  // Check if user has curator role
+  const CURATOR_ROLE = keccak256(toBytes('CURATOR_ROLE'));
+  
+  const { data: isCurator } = useReadContract({
+    address: REGISTRY_ADDRESS,
+    abi: BUG_BOUNTY_REGISTRY_ABI,
+    functionName: 'hasRole',
+    args: address ? [CURATOR_ROLE, address] : undefined,
+  });
 
   const { data: bounty, isError, isLoading, refetch } = useReadContract({
     address: REGISTRY_ADDRESS,
@@ -61,12 +72,14 @@ export function Home() {
         >
           Submit Fix
         </button>
-        <button
-          className={`tab-button ${activeTab === 'curator' ? 'active' : ''}`}
-          onClick={() => setActiveTab('curator')}
-        >
-          Curator Panel
-        </button>
+        {isCurator && (
+          <button
+            className={`tab-button ${activeTab === 'curator' ? 'active' : ''}`}
+            onClick={() => setActiveTab('curator')}
+          >
+            Curator Panel
+          </button>
+        )}
       </div>
 
       {activeTab === 'browse' && (

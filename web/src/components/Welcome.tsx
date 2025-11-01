@@ -17,6 +17,33 @@ export function Welcome() {
           </p>
         </div>
 
+        <div className="welcome-actions">
+          <div className="connect-prompt">
+            <h3>Ready to get started?</h3>
+            <p>Connect your wallet to create bounties, submit fixes, or approve submissions</p>
+            <div className="connect-button-wrapper">
+              <ConnectButton />
+            </div>
+          </div>
+
+          <div className="testnet-info">
+            <p>
+              <strong>⚠️ Testnet Only:</strong> This platform runs on Polygon Amoy Testnet.
+            </p>
+            <p>
+              Need test MATIC? Get it from{' '}
+              <a 
+                href="https://faucet.polygon.technology/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="faucet-link"
+              >
+                Polygon Faucet →
+              </a>
+            </p>
+          </div>
+        </div>
+
         <div className="welcome-card">
           <h2>How It Works</h2>
           
@@ -59,33 +86,6 @@ export function Welcome() {
                 <li>Maintain platform integrity</li>
               </ul>
             </div>
-          </div>
-        </div>
-
-        <div className="welcome-actions">
-          <div className="connect-prompt">
-            <h3>Ready to get started?</h3>
-            <p>Connect your wallet to create bounties, submit fixes, or approve submissions</p>
-            <div className="connect-button-wrapper">
-              <ConnectButton />
-            </div>
-          </div>
-
-          <div className="testnet-info">
-            <p>
-              <strong>⚠️ Testnet Only:</strong> This platform runs on Polygon Amoy Testnet.
-            </p>
-            <p>
-              Need test MATIC? Get it from{' '}
-              <a 
-                href="https://faucet.polygon.technology/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="faucet-link"
-              >
-                Polygon Faucet →
-              </a>
-            </p>
           </div>
         </div>
       </div>
