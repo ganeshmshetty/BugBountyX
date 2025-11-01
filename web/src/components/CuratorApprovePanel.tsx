@@ -26,7 +26,7 @@ export function CuratorApprovePanel() {
   });
 
   const bountyExists = bountyData && bountyData[0] !== '0x0000000000000000000000000000000000000000';
-  const bountyStatus = bountyData ? bountyData[5] : null;
+  const bountyStatus = bountyData ? Number(bountyData[5]) : null;
   const hunterAddress = bountyData ? bountyData[2] : null;
   const bountyAmount = bountyData ? bountyData[1] : null;
   const canApprove = bountyStatus === BountyStatus.Submitted;

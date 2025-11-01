@@ -23,7 +23,7 @@ export function SubmitFixForm() {
 
   // Check if bounty exists and is open
   const bountyExists = bountyData && bountyData[0] !== '0x0000000000000000000000000000000000000000';
-  const bountyStatus = bountyData ? bountyData[5] : null;
+  const bountyStatus = bountyData ? Number(bountyData[5]) : null;
   const isOpen = bountyStatus === BountyStatus.Open;
 
   const handleSubmit = async (e: FormEvent) => {
