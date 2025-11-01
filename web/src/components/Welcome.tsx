@@ -26,7 +26,7 @@ export function Welcome() {
         </div>
 
         <div className="welcome-card">
-          <h2>How It Works</h2>
+          <h2 >How It Works</h2>
           
           <div className="how-it-works-grid">
             <div className="how-it-works-item">
