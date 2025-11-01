@@ -33,40 +33,39 @@ export function Welcome() {
             <div className="how-it-works-item">
               <div className="how-it-works-icon">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
-                  <path d="M12 18V6"></path>
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <circle cx="12" cy="11" r="3"></circle>
                 </svg>
               </div>
-              <h3>For Sponsors</h3>
+              <h3>Find Vulnerability</h3>
               <p>
-                Create bug bounties by escrowing MATIC tokens on-chain. 
-                Your funds are securely held in the smart contract until a valid fix is approved.
+                Security researchers discover vulnerabilities and document their findings with detailed proof-of-concept.
               </p>
               <ul>
-                <li>Create bounties with custom rewards</li>
-                <li>Add detailed bug descriptions via IPFS</li>
-                <li>Automatic payment on approval</li>
+                <li>Identify security vulnerabilities</li>
+                <li>Document with proof-of-concept</li>
+                <li>Assess impact and severity</li>
               </ul>
             </div>
 
             <div className="how-it-works-item">
               <div className="how-it-works-icon">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
               </div>
-              <h3>For Hunters</h3>
+              <h3>Submit Report</h3>
               <p>
-                Browse open bounties, submit your fixes with proof of work, 
-                and earn rewards when your submission is approved.
+                Submit vulnerability reports via the dApp with detailed descriptions, proof, and impact assessment. Reports are stored on-chain with metadata on IPFS.
               </p>
               <ul>
-                <li>Browse all available bounties</li>
-                <li>Submit fixes with proof links</li>
-                <li>Get paid automatically on approval</li>
+                <li>Submit detailed vulnerability reports</li>
+                <li>Include proof and reproduction steps</li>
+                <li>Track submission status on-chain</li>
               </ul>
             </div>
 
@@ -77,15 +76,14 @@ export function Welcome() {
                   <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
               </div>
-              <h3>For Curators</h3>
+              <h3>Review & Auto-Pay</h3>
               <p>
-                Review submitted fixes and approve valid submissions. 
-                Curators ensure quality and trigger automatic payments to hunters.
+                Curators review submissions for validity. Once approved, the escrowed bounty is automatically paid to the researcher in crypto. All transactions are logged on-chain.
               </p>
               <ul>
-                <li>Review hunter submissions</li>
-                <li>Approve quality fixes</li>
-                <li>Maintain platform integrity</li>
+                <li>Curator validates the report</li>
+                <li>Automatic crypto payment on approval</li>
+                <li>Transparent on-chain status logging</li>
               </ul>
             </div>
           </div>
