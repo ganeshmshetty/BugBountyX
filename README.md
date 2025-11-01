@@ -96,7 +96,7 @@ pnpm dev
 
 Visit `http://localhost:5173` to interact with the dapp.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Blockchain**
 - Solidity 0.8.27
@@ -113,7 +113,7 @@ Visit `http://localhost:5173` to interact with the dapp.
 - RainbowKit v2
 - TanStack Query
 
-## 📝 Project Structure
+## Project Structure
 
 ```
 BugBountyX/
@@ -142,14 +142,14 @@ BugBountyX/
 └── README.md
 ```
 
-## 🔐 Security
+## Security
 
 - ReentrancyGuard on all fund transfers
 - Role-based access control
 - Input validation on all functions
 - Checks-Effects-Interactions pattern
 
-## 🌐 Resources
+## Resources
 
 - [Polygon Amoy Faucet](https://faucet.polygon.technology/)
 - [Polygon Amoy Explorer](https://amoy.polygonscan.com/)
