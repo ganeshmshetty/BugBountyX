@@ -1,6 +1,6 @@
 :root {
   --primary: #e5e7eb;
-  --primary-hover: #f3f4f644;
+  --primary-hover: #f3f4f6aa;
   --primary-text: #1f2937;
   --bg-dark: #0f0f1a;
   --bg-card: #1a1a2e;
@@ -682,8 +682,7 @@ button:disabled {
   min-height: 100vh;
   background: var(--bg-dark);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: 2rem;
 }
 
@@ -694,6 +693,8 @@ button:disabled {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex: 1;
+  margin: 0 auto;
 }
 
 .welcome-header {
@@ -709,8 +710,8 @@ button:disabled {
 }
 
 .welcome-logo-image {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
@@ -730,10 +731,10 @@ button:disabled {
 }
 
 .welcome-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   border-radius: 12px;
   padding: 2.5rem;
+  padding-top: 0;
   margin-top: 4rem;
   margin-bottom: 2rem;
   box-shadow: 0 2px 8px var(--shadow);
@@ -767,11 +768,24 @@ button:disabled {
   box-shadow: 0 4px 12px rgba(229, 231, 235, 0.08);
 }
 
+.how-it-works-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.how-it-works-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
 .how-it-works-item h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   color: var(--text);
   font-weight: 600;
+  text-align: center;
 }
 
 .how-it-works-item p {
@@ -825,7 +839,7 @@ button:disabled {
 .connect-button-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 0rem;
 }
 
 .testnet-info {
