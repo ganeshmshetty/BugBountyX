@@ -1,6 +1,6 @@
-import { useState, FormEvent } from 'react';
-import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
-import { BUG_BOUNTY_REGISTRY_ABI, REGISTRY_ADDRESS } from '../lib/contract';
+import { useState, type FormEvent } from 'react';
+import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from 'wagmi';
+import { BUG_BOUNTY_REGISTRY_ABI, REGISTRY_ADDRESS, BountyStatus } from '../lib/contract';
 
 export function SubmitFixForm() {
   const [bountyId, setBountyId] = useState('');
@@ -13,11 +13,39 @@ export function SubmitFixForm() {
     hash,
   });
 
+  // Read bounty details to validate before submitting
+  const { data: bountyData } = useReadContract({
+    address: REGISTRY_ADDRESS,
+    abi: BUG_BOUNTY_REGISTRY_ABI,
+    functionName: 'getBounty',
+    args: bountyId ? [BigInt(bountyId)] : undefined,
+  });
+
+  // Check if bounty exists and is open
+  const bountyExists = bountyData && bountyData[0] !== '0x0000000000000000000000000000000000000000';
+  const bountyStatus = bountyData ? bountyData[5] : null;
+  const isOpen = bountyStatus === BountyStatus.Open;
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!address) {
       alert('Please connect your wallet first');
+      return;
+    }
+
+    if (!bountyExists) {
+      alert(`Bounty ID ${bountyId} does not exist. Please create it first or use a different ID.`);
+      return;
+    }
+
+    if (!isOpen) {
+      const statusText = bountyStatus === BountyStatus.Submitted ? 'already submitted' :
+                        bountyStatus === BountyStatus.Approved ? 'already approved' :
+                        bountyStatus === BountyStatus.Paid ? 'already paid' :
+                        bountyStatus === BountyStatus.Cancelled ? 'cancelled' :
+                        bountyStatus === BountyStatus.Refunded ? 'refunded' : 'not open';
+      alert(`Cannot submit fix: Bounty is ${statusText}. Only "Open" bounties accept submissions.`);
       return;
     }
 
@@ -47,6 +75,28 @@ export function SubmitFixForm() {
             placeholder="e.g., 1"
             required
           />
+          {bountyId && bountyExists && (
+            <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>
+              {isOpen ? (
+                <span style={{ color: '#4CAF50' }}>✅ Bounty exists and is open for submissions</span>
+              ) : (
+                <span style={{ color: '#f44336' }}>
+                  ⚠️ Bounty exists but is not open (Status: {
+                    bountyStatus === BountyStatus.Submitted ? 'Submitted' :
+                    bountyStatus === BountyStatus.Approved ? 'Approved' :
+                    bountyStatus === BountyStatus.Paid ? 'Paid' :
+                    bountyStatus === BountyStatus.Cancelled ? 'Cancelled' :
+                    bountyStatus === BountyStatus.Refunded ? 'Refunded' : 'Unknown'
+                  })
+                </span>
+              )}
+            </div>
+          )}
+          {bountyId && !bountyExists && (
+            <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#f44336' }}>
+              ❌ Bounty ID {bountyId} does not exist. Create it first!
+            </div>
+          )}
         </div>
 
         <div className="form-group">
@@ -59,9 +109,15 @@ export function SubmitFixForm() {
             placeholder="https://github.com/user/repo/pull/1"
             required
           />
+          <small style={{ display: 'block', marginTop: '0.25rem', color: '#666' }}>
+            Link to your fix (GitHub PR, commit, or proof of work)
+          </small>
         </div>
 
-        <button type="submit" disabled={isPending || isConfirming || !address}>
+        <button 
+          type="submit" 
+          disabled={isPending || isConfirming || !address || !bountyExists || !isOpen}
+        >
           {isPending ? 'Confirming...' : isConfirming ? 'Submitting...' : 'Submit Fix'}
         </button>
       </form>
@@ -73,8 +129,20 @@ export function SubmitFixForm() {
       )}
       
       {isConfirming && <div className="status">Waiting for confirmation...</div>}
-      {isSuccess && <div className="status success">Fix submitted successfully!</div>}
-      {error && <div className="status error">Error: {error.message}</div>}
+      {isSuccess && (
+        <div className="status success">
+          ✅ Fix submitted successfully! The curator will review your submission.
+        </div>
+      )}
+      {error && (
+        <div className="status error">
+          Error: {error.message.includes('Bounty does not exist') 
+            ? 'Bounty does not exist. Please create it first.'
+            : error.message.includes('Bounty is not open')
+            ? 'Bounty is not open for submissions.'
+            : error.message}
+        </div>
+      )}
     </div>
   );
 }

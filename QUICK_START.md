@@ -144,6 +144,16 @@ pnpm dev
 
 ## ❓ Troubleshooting
 
+**"Bounty does not exist" or "Internal JSON-RPC error" when submitting fix:**
+- ✅ **Solution:** You must create the bounty FIRST before submitting a fix
+- Make sure you're using the same Bounty ID that you created
+- The improved form now shows real-time validation
+
+**"Bounty is not open" error:**
+- ✅ **Solution:** The bounty has already been submitted, approved, or cancelled
+- Use a different bounty ID or create a new bounty
+- Check the bounty status in the UI before submitting
+
 **"Insufficient funds" error:**
 - Get more testnet MATIC from https://faucet.polygon.technology/
 
@@ -155,6 +165,19 @@ pnpm dev
 
 **Contract not responding:**
 - Verify `VITE_REGISTRY_ADDRESS` in `web/.env` matches your deployed contract
+
+## 🔄 Common Workflow Mistakes
+**❌ WRONG: Trying to submit fix first**
+```
+1. Submit Fix (Bounty ID 1) → ❌ Error: Bounty does not exist
+```
+
+**✅ CORRECT: Create bounty first, then submit**
+```
+1. Create Bounty (ID 1, Amount 0.1 MATIC) → ✅ Success
+2. Submit Fix (Bounty ID 1) → ✅ Success
+3. Approve Fix (Bounty ID 1) → ✅ Payment sent!
+```
 
 ## 🎯 Key Resources
 

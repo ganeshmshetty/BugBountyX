@@ -49,9 +49,10 @@ async function main() {
   
   // Save deployment info to a file
   const fs = require("fs");
+  const network = await ethers.provider.getNetwork();
   const deploymentInfo = {
-    network: (await ethers.provider.getNetwork()).name,
-    chainId: (await ethers.provider.getNetwork()).chainId,
+    network: network.name,
+    chainId: network.chainId.toString(), // Convert BigInt to string
     contractAddress: registryAddress,
     deployer: deployer.address,
     curator: curatorAddress,
