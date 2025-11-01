@@ -571,14 +571,16 @@ export const BUG_BOUNTY_REGISTRY_ABI = [
 
 export const REGISTRY_ADDRESS = (import.meta.env.VITE_REGISTRY_ADDRESS || '0x') as `0x${string}`;
 
-export enum BountyStatus {
-  Open = 0,
-  Submitted = 1,
-  Approved = 2,
-  Paid = 3,
-  Cancelled = 4,
-  Refunded = 5,
-}
+export const BountyStatus = {
+  Open: 0,
+  Submitted: 1,
+  Approved: 2,
+  Paid: 3,
+  Cancelled: 4,
+  Refunded: 5,
+} as const;
+
+export type BountyStatus = typeof BountyStatus[keyof typeof BountyStatus];
 
 export interface Bounty {
   sponsor: string;

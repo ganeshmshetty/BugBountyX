@@ -42,8 +42,12 @@ export function Home() {
 
   return (
     <div className="container">
-      <h1>🐛 BugBountyX - Web3 Bug Bounty Platform</h1>
-      <p className="subtitle">Polygon Amoy Testnet</p>
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', fontWeight: '800' }}>
+          🐛 BugBountyX - Web3 Bug Bounty Platform
+        </h1>
+        <p className="subtitle">Polygon Amoy Testnet</p>
+      </div>
 
       <div className="info-box">
         <h3>ℹ️ How It Works</h3>
