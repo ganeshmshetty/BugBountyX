@@ -19,7 +19,6 @@ export function Welcome() {
 
         <div className="welcome-actions">
           <div className="connect-prompt">
-            <h3>Ready to get started?</h3>
             <div className="connect-button-wrapper">
               <ConnectButton />
             </div>
