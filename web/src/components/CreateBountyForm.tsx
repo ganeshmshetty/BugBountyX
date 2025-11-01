@@ -7,6 +7,7 @@ export function CreateBountyForm() {
   const [bountyId, setBountyId] = useState('');
   const [amount, setAmount] = useState('');
   const [metadataURI, setMetadataURI] = useState('');
+  const [description, setDescription] = useState('');
 
   const { data: hash, writeContract, isPending, error } = useWriteContract();
   
@@ -22,7 +23,7 @@ export function CreateBountyForm() {
         address: REGISTRY_ADDRESS,
         abi: BUG_BOUNTY_REGISTRY_ABI,
         functionName: 'createBounty',
-        args: [BigInt(bountyId), metadataURI],
+        args: [BigInt(bountyId), metadataURI, description],
         value: parseEther(amount),
       });
     } catch (err) {
@@ -68,6 +69,37 @@ export function CreateBountyForm() {
             onChange={(e) => setMetadataURI(e.target.value)}
             placeholder="ipfs://... or https://..."
             required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe the bug and bounty requirements..."
+            rows={4}
+            style={{
+              width: '100%',
+              padding: '0.875rem 1rem',
+              backgroundColor: 'var(--bg-dark)',
+              border: '2px solid var(--border)',
+              borderRadius: '8px',
+              color: 'var(--text)',
+              fontSize: '1rem',
+              fontFamily: 'inherit',
+              resize: 'vertical',
+              transition: 'all 0.3s ease',
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'var(--primary)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(100, 108, 255, 0.1)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'var(--border)';
+              e.target.style.boxShadow = 'none';
+            }}
           />
         </div>
 

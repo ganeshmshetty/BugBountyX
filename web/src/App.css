@@ -35,7 +35,7 @@ body {
 .header {
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
-  padding: 1rem 2rem;
+  padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -44,8 +44,9 @@ body {
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -497,6 +498,191 @@ button:disabled {
 .empty-state-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+}
+
+/* Bounty Table Styles */
+.bounty-table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.bounty-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.bounty-table thead {
+  background: rgba(229, 231, 235, 0.05);
+  border-bottom: 2px solid var(--border);
+}
+
+.bounty-table th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.bounty-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bounty-table tbody tr:hover {
+  background-color: rgba(229, 231, 235, 0.03);
+}
+
+.bounty-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.bounty-table td {
+  padding: 1.25rem 1.5rem;
+  color: var(--text);
+}
+
+.bounty-id-cell {
+  font-weight: 600;
+}
+
+.bounty-amount-cell {
+  font-weight: 700;
+  color: var(--success);
+  font-size: 1.1rem;
+}
+
+.address-cell {
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--text-dim);
+}
+
+.description-cell {
+  max-width: 600px;
+  min-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  cursor: help;
+  padding-right: 2rem;
+}
+
+.description-cell:hover {
+  color: var(--text);
+}
+
+.actions-cell {
+  white-space: nowrap;
+}
+
+.table-link {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.table-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .bounty-table {
+    font-size: 0.875rem;
+  }
+  
+  .bounty-table th,
+  .bounty-table td {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .bounty-table-container {
+    border: none;
+    background: transparent;
+  }
+  
+  .bounty-table,
+  .bounty-table thead,
+  .bounty-table tbody,
+  .bounty-table th,
+  .bounty-table td,
+  .bounty-table tr {
+    display: block;
+  }
+  
+  .bounty-table thead {
+    display: none;
+  }
+  
+  .bounty-table tbody tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  .bounty-table td {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .bounty-table td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .bounty-id-cell:before {
+    content: 'ID: ';
+  }
+  
+  .bounty-amount-cell:before {
+    content: 'Amount: ';
+  }
+  
+  .description-cell {
+    max-width: 100%;
+    white-space: normal;
+    align-items: flex-start;
+  }
+  
+  .description-cell:before {
+    content: 'Description: ';
+    min-width: 100px;
+  }
+  
+  .address-cell:before {
+    content: attr(data-label);
+  }
+  
+  .actions-cell {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .actions-cell:before {
+    content: '';
+  }
 }
 
 .loading-spinner {

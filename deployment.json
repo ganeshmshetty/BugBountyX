@@ -1,8 +1,8 @@
 {
   "network": "amoy",
   "chainId": "80002",
-  "contractAddress": "0xEb184E1Ea0B92966542B0E9C5De28269da9F5164",
-  "deployer": "0xC7d62Aa43943bd90AbAE95b73d22117B752551C5",
+  "contractAddress": "0xBbd28f2A8823da64871C11A624e389D64a1F3989",
+  "deployer": "0x15195ffc68FF28AB760C69c3057FaE2628384bF1",
   "curator": "0xc7d62aa43943bd90abae95b73d22117b752551c5",
-  "deployedAt": "2025-11-01T05:13:28.513Z"
+  "deployedAt": "2025-11-01T17:56:51.729Z"
 }

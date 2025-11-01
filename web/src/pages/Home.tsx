@@ -108,9 +108,9 @@ export function Home() {
                     <h3>Bounty #{viewBountyId}</h3>
                     <span 
                       className="status-badge" 
-                      style={{ backgroundColor: statusColors[bounty[5] as BountyStatus] }}
+                      style={{ backgroundColor: statusColors[bounty[6] as BountyStatus] }}
                     >
-                      {statusLabels[bounty[5] as BountyStatus]}
+                      {statusLabels[bounty[6] as BountyStatus]}
                     </span>
                   </div>
                   
@@ -139,9 +139,15 @@ export function Home() {
                     </div>
                     {bounty[4] && (
                       <div className="detail-row">
+                        <strong>Description:</strong>
+                        <p style={{ margin: '0.5rem 0 0 0', whiteSpace: 'pre-wrap' }}>{bounty[4]}</p>
+                      </div>
+                    )}
+                    {bounty[5] && bounty[5] !== '' && (
+                      <div className="detail-row">
                         <strong>Submission URI:</strong>
-                        <a href={bounty[4]} target="_blank" rel="noopener noreferrer" className="link">
-                          {bounty[4]}
+                        <a href={bounty[5]} target="_blank" rel="noopener noreferrer" className="link">
+                          {bounty[5]}
                         </a>
                       </div>
                     )}

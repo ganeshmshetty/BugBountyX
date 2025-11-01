@@ -14,6 +14,7 @@ describe("BugBountyRegistry", function () {
   const bountyId = 1;
   const bountyAmount = ethers.parseEther("1.0");
   const metadataURI = "ipfs://QmTest123";
+  const description = "Critical SQL injection vulnerability in login endpoint";
   const submissionURI = "https://github.com/user/repo/pull/1";
 
   beforeEach(async function () {
@@ -45,23 +46,24 @@ describe("BugBountyRegistry", function () {
   describe("Create Bounty", function () {
     it("Should create a bounty with correct details", async function () {
       await expect(
-        registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+        registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
           value: bountyAmount,
         })
       )
         .to.emit(registry, "BountyCreated")
-        .withArgs(bountyId, sponsor.address, bountyAmount, metadataURI);
+        .withArgs(bountyId, sponsor.address, bountyAmount, metadataURI, description);
 
       const bounty = await registry.getBounty(bountyId);
       expect(bounty.sponsor).to.equal(sponsor.address);
       expect(bounty.amount).to.equal(bountyAmount);
       expect(bounty.metadataURI).to.equal(metadataURI);
+      expect(bounty.description).to.equal(description);
       expect(bounty.status).to.equal(0); // Status.Open
     });
 
     it("Should fail if bounty amount is zero", async function () {
       await expect(
-        registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+        registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
           value: 0,
         })
       ).to.be.revertedWith("Bounty amount must be greater than 0");
@@ -69,19 +71,19 @@ describe("BugBountyRegistry", function () {
 
     it("Should fail if metadata URI is empty", async function () {
       await expect(
-        registry.connect(sponsor).createBounty(bountyId, "", {
+        registry.connect(sponsor).createBounty(bountyId, "", description, {
           value: bountyAmount,
         })
       ).to.be.revertedWith("Metadata URI required");
     });
 
     it("Should fail if bounty ID already exists", async function () {
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
 
       await expect(
-        registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+        registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
           value: bountyAmount,
         })
       ).to.be.revertedWith("Bounty ID already exists");
@@ -90,7 +92,7 @@ describe("BugBountyRegistry", function () {
 
   describe("Submit Fix", function () {
     beforeEach(async function () {
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
     });
@@ -102,7 +104,8 @@ describe("BugBountyRegistry", function () {
         .to.emit(registry, "FixSubmitted")
         .withArgs(bountyId, hunter.address, submissionURI);
 
-      const bounty = await registry.getBounty(bountyId);
+      // Call getBounty from sponsor's perspective to see submissionURI
+      const bounty = await registry.connect(sponsor).getBounty(bountyId);
       expect(bounty.hunter).to.equal(hunter.address);
       expect(bounty.submissionURI).to.equal(submissionURI);
       expect(bounty.status).to.equal(1); // Status.Submitted
@@ -133,11 +136,46 @@ describe("BugBountyRegistry", function () {
         registry.connect(hunter).submitFix(bountyId, hunter.address, "")
       ).to.be.revertedWith("Submission URI required");
     });
+
+    it("Should enforce submission privacy", async function () {
+      await registry.connect(hunter).submitFix(bountyId, hunter.address, submissionURI);
+
+      // Sponsor should see submissionURI
+      const bountyFromSponsor = await registry.connect(sponsor).getBounty(bountyId);
+      expect(bountyFromSponsor.submissionURI).to.equal(submissionURI);
+
+      // Curator should see submissionURI
+      const bountyFromCurator = await registry.connect(curator).getBounty(bountyId);
+      expect(bountyFromCurator.submissionURI).to.equal(submissionURI);
+
+      // Other accounts should NOT see submissionURI (should be empty)
+      const bountyFromOther = await registry.connect(otherAccount).getBounty(bountyId);
+      expect(bountyFromOther.submissionURI).to.equal("");
+
+      // Hunter (who submitted) should NOT see it unless they're sponsor/curator
+      const bountyFromHunter = await registry.connect(hunter).getBounty(bountyId);
+      expect(bountyFromHunter.submissionURI).to.equal("");
+    });
+
+    it("Should make submission public after approval", async function () {
+      await registry.connect(hunter).submitFix(bountyId, hunter.address, submissionURI);
+      
+      // Before approval, other accounts can't see submission
+      let bountyFromOther = await registry.connect(otherAccount).getBounty(bountyId);
+      expect(bountyFromOther.submissionURI).to.equal("");
+
+      // Approve the fix
+      await registry.connect(curator).approveFix(bountyId);
+
+      // After approval (status = Paid), everyone should see submissionURI
+      bountyFromOther = await registry.connect(otherAccount).getBounty(bountyId);
+      expect(bountyFromOther.submissionURI).to.equal(submissionURI);
+    });
   });
 
   describe("Approve Fix", function () {
     beforeEach(async function () {
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
       await registry.connect(hunter).submitFix(bountyId, hunter.address, submissionURI);
@@ -173,7 +211,7 @@ describe("BugBountyRegistry", function () {
 
     it("Should fail if fix not submitted", async function () {
       const newBountyId = 2;
-      await registry.connect(sponsor).createBounty(newBountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(newBountyId, metadataURI, description, {
         value: bountyAmount,
       });
 
@@ -185,7 +223,7 @@ describe("BugBountyRegistry", function () {
 
   describe("Refund", function () {
     beforeEach(async function () {
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
     });
@@ -245,7 +283,7 @@ describe("BugBountyRegistry", function () {
 
   describe("Cancel Bounty", function () {
     beforeEach(async function () {
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
     });
@@ -275,7 +313,7 @@ describe("BugBountyRegistry", function () {
   describe("Full Lifecycle", function () {
     it("Should complete full bounty lifecycle: Open → Submitted → Approved → Paid", async function () {
       // Create bounty
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
       let bounty = await registry.getBounty(bountyId);
@@ -298,7 +336,7 @@ describe("BugBountyRegistry", function () {
 
     it("Should complete refund lifecycle: Open → Cancelled → Refunded", async function () {
       // Create bounty
-      await registry.connect(sponsor).createBounty(bountyId, metadataURI, {
+      await registry.connect(sponsor).createBounty(bountyId, metadataURI, description, {
         value: bountyAmount,
       });
 

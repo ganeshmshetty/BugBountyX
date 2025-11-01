@@ -50,8 +50,8 @@ export function BountyList({ onSelectBounty }: BountyListProps) {
     if (filterStatus === 'all') {
       return true;
     }
-    return b.data[5] === filterStatus;
-  });
+    return b.data[6] === filterStatus;
+  }).reverse(); // Reverse to show newest bounties first
 
   const handleBountyClick = (bountyId: number) => {
     onSelectBounty(bountyId.toString());
@@ -99,78 +99,80 @@ export function BountyList({ onSelectBounty }: BountyListProps) {
             </p>
           </div>
         ) : (
-          <div className="bounty-list-grid">
-            {validBounties.map(({ id, data }) => {
-              if (!data) return null;
-              
-              const [sponsor, amount, hunter, metadataURI, submissionURI, status] = data;
-              
-              return (
-                <div
-                  key={id}
-                  className="bounty-list-item"
-                  onClick={() => handleBountyClick(id)}
-                >
-                  <div className="bounty-list-header">
-                    <span className="bounty-id-badge">#{id}</span>
-                    <span
-                      className="status-badge"
-                      style={{ backgroundColor: statusColors[status as BountyStatus] }}
+          <div className="bounty-table-container">
+            <table className="bounty-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {validBounties.map(({ id, data }) => {
+                  if (!data) return null;
+                  
+                  const [, amount, , metadataURI, description, submissionURI, status] = data;
+                  
+                  return (
+                    <tr 
+                      key={id} 
+                      className="bounty-table-row"
+                      onClick={() => handleBountyClick(id)}
                     >
-                      {statusLabels[status as BountyStatus]}
-                    </span>
-                  </div>
-                  
-                  <div className="bounty-amount-large">
-                    {formatEther(amount)} MATIC
-                  </div>
-                  
-                  <div className="detail-row" style={{ marginTop: '1rem' }}>
-                    <strong>Sponsor</strong>
-                    <span className="address">
-                      {sponsor.slice(0, 6)}...{sponsor.slice(-4)}
-                    </span>
-                  </div>
-                  
-                  {hunter !== '0x0000000000000000000000000000000000000000' && (
-                    <div className="detail-row" style={{ marginTop: '0.5rem' }}>
-                      <strong>Hunter</strong>
-                      <span className="address">
-                        {hunter.slice(0, 6)}...{hunter.slice(-4)}
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="detail-row" style={{ marginTop: '0.5rem' }}>
-                    <strong>Details</strong>
-                    <a
-                      href={metadataURI}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      View Metadata →
-                    </a>
-                  </div>
-                  
-                  {submissionURI && submissionURI !== '' && (
-                    <div className="detail-row" style={{ marginTop: '0.5rem' }}>
-                      <strong>Submission</strong>
-                      <a
-                        href={submissionURI}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="link"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        View Submission →
-                      </a>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                      <td className="bounty-id-cell">
+                        <span className="bounty-id-badge">#{id}</span>
+                      </td>
+                      <td className="bounty-amount-cell">
+                        {formatEther(amount)} MATIC
+                      </td>
+                      <td>
+                        <span
+                          className="status-badge"
+                          style={{ backgroundColor: statusColors[status as BountyStatus] }}
+                        >
+                          {statusLabels[status as BountyStatus]}
+                        </span>
+                      </td>
+                      <td className="description-cell" title={description}>
+                        {description 
+                          ? description.length > 100 
+                            ? `${description.slice(0, 100)}...` 
+                            : description
+                          : '-'}
+                      </td>
+                      <td className="actions-cell">
+                        <a
+                          href={metadataURI}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="table-link"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Details
+                        </a>
+                        {submissionURI && submissionURI !== '' && (
+                          <>
+                            {' • '}
+                            <a
+                              href={submissionURI}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="table-link"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Submission
+                            </a>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

@@ -83,6 +83,12 @@ export const BUG_BOUNTY_REGISTRY_ABI = [
         "internalType": "string",
         "name": "metadataURI",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       }
     ],
     "name": "BountyCreated",
@@ -364,6 +370,11 @@ export const BUG_BOUNTY_REGISTRY_ABI = [
         "internalType": "string",
         "name": "metadataURI",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       }
     ],
     "name": "createBounty",
@@ -399,6 +410,11 @@ export const BUG_BOUNTY_REGISTRY_ABI = [
       {
         "internalType": "string",
         "name": "metadataURI",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
         "type": "string"
       },
       {

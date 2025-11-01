@@ -30,6 +30,7 @@ contract BugBountyRegistry is AccessControl, ReentrancyGuard {
         uint256 amount;
         address payable hunter;
         string metadataURI;
+        string description;
         string submissionURI;
         Status status;
     }
@@ -42,7 +43,8 @@ contract BugBountyRegistry is AccessControl, ReentrancyGuard {
         uint256 indexed bountyId,
         address indexed sponsor,
         uint256 amount,
-        string metadataURI
+        string metadataURI,
+        string description
     );
     
     event FixSubmitted(
@@ -79,10 +81,12 @@ contract BugBountyRegistry is AccessControl, ReentrancyGuard {
      * @dev Create a new bounty with escrowed funds
      * @param bountyId Unique identifier for the bounty
      * @param metadataURI URI pointing to bounty details (e.g., IPFS)
+     * @param description Description of the bug and bounty requirements
      */
     function createBounty(
         uint256 bountyId,
-        string calldata metadataURI
+        string calldata metadataURI,
+        string calldata description
     ) external payable {
         require(msg.value > 0, "Bounty amount must be greater than 0");
         require(bounties[bountyId].sponsor == address(0), "Bounty ID already exists");
@@ -93,11 +97,12 @@ contract BugBountyRegistry is AccessControl, ReentrancyGuard {
             amount: msg.value,
             hunter: payable(address(0)),
             metadataURI: metadataURI,
+            description: description,
             submissionURI: "",
             status: Status.Open
         });
 
-        emit BountyCreated(bountyId, msg.sender, msg.value, metadataURI);
+        emit BountyCreated(bountyId, msg.sender, msg.value, metadataURI, description);
     }
 
     /**
@@ -207,17 +212,36 @@ contract BugBountyRegistry is AccessControl, ReentrancyGuard {
             uint256 amount,
             address hunter,
             string memory metadataURI,
+            string memory description,
             string memory submissionURI,
             Status status
         ) 
     {
         Bounty memory bounty = bounties[bountyId];
+        
+        // Implement privacy for submissionURI
+        string memory visibleSubmissionURI = "";
+        
+        // Show submissionURI if:
+        // 1. Caller is the sponsor
+        // 2. Caller has CURATOR_ROLE
+        // 3. Bounty status is Approved or Paid
+        if (
+            msg.sender == bounty.sponsor ||
+            hasRole(CURATOR_ROLE, msg.sender) ||
+            bounty.status == Status.Approved ||
+            bounty.status == Status.Paid
+        ) {
+            visibleSubmissionURI = bounty.submissionURI;
+        }
+        
         return (
             bounty.sponsor,
             bounty.amount,
             bounty.hunter,
             bounty.metadataURI,
-            bounty.submissionURI,
+            bounty.description,
+            visibleSubmissionURI,
             bounty.status
         );
     }
