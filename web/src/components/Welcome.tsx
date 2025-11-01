@@ -25,23 +25,6 @@ export function Welcome() {
               <ConnectButton />
             </div>
           </div>
-
-          <div className="testnet-info">
-            <p>
-              <strong>⚠️ Testnet Only:</strong> This platform runs on Polygon Amoy Testnet.
-            </p>
-            <p>
-              Need test MATIC? Get it from{' '}
-              <a 
-                href="https://faucet.polygon.technology/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="faucet-link"
-              >
-                Polygon Faucet →
-              </a>
-            </p>
-          </div>
         </div>
 
         <div className="welcome-card">
