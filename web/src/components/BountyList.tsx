@@ -154,6 +154,21 @@ export function BountyList({ onSelectBounty }: BountyListProps) {
                       View Metadata →
                     </a>
                   </div>
+                  
+                  {submissionURI && submissionURI !== '' && (
+                    <div className="detail-row" style={{ marginTop: '0.5rem' }}>
+                      <strong>Submission</strong>
+                      <a
+                        href={submissionURI}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View Submission →
+                      </a>
+                    </div>
+                  )}
                 </div>
               );
             })}
