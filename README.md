@@ -1,16 +1,18 @@
 # BugBountyX
 
-A Web3 Bug Bounty platform with curator-approved payouts on Polygon Amoy testnet.
+A Web3 Bug Bounty platform
 
-## 🎯 Overview
+## Overview
 
-BugBountyX is a decentralized bug bounty platform where:
+BugBountyX is a decentralized bug bounty platform.
+The flow :
 - **Sponsors** create bounties by escrowing MATIC
-- **Hunters** submit fixes for open bounties
+- **Hunters** find any vulnerability and document it
 - **Curators** approve submissions to auto-release funds
+- Sponsors then fix the bugs and then the vulnerability report are made public
 - All interactions are on-chain with full transparency
 
-## 🏗️ Architecture
+## Architecture
 
 ### Smart Contract
 - **Network**: Polygon Amoy Testnet (ChainID: 80002)
@@ -26,14 +28,14 @@ BugBountyX is a decentralized bug bounty platform where:
 - **Web3**: wagmi + viem + RainbowKit
 - **Network**: Polygon Amoy support
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js 20.19+ or 22.12+
 - pnpm (package manager)
 - MetaMask or compatible Web3 wallet
 - Polygon Amoy testnet MATIC (from [faucet](https://faucet.polygon.technology/))
 
-## 🚀 Getting Started
+## Basic Setup
 
 ### 1. Install Dependencies
 
@@ -94,69 +96,6 @@ pnpm dev
 
 Visit `http://localhost:5173` to interact with the dapp.
 
-## 🎮 How to Use
-
-### For Sponsors (Creating Bounties)
-
-1. Connect your wallet with Polygon Amoy network
-2. Navigate to "Create Bounty" section
-3. Enter:
-   - Unique Bounty ID
-   - Amount in MATIC to escrow
-   - Metadata URI (description, requirements, etc.)
-4. Confirm transaction
-5. Funds are locked until approved or refunded
-
-### For Hunters (Submitting Fixes)
-
-1. Connect your wallet
-2. Find an open bounty
-3. Navigate to "Submit Fix" section
-4. Enter:
-   - Bounty ID
-   - Submission URI (GitHub PR, commit, etc.)
-5. Confirm transaction
-6. Wait for curator approval
-
-### For Curators (Approving Submissions)
-
-1. Connect wallet with curator role
-2. Review submitted fixes
-3. Navigate to "Curator Panel"
-4. Enter Bounty ID to approve
-5. Confirm transaction
-6. Payment automatically sent to hunter
-
-## 📜 Smart Contract Functions
-
-### Public Functions
-- `createBounty(uint256 bountyId, string metadataURI)` - Create new bounty with escrowed funds
-- `submitFix(uint256 bountyId, address hunter, string submissionURI)` - Submit a fix
-- `getBounty(uint256 bountyId)` - View bounty details
-
-### Curator Functions
-- `approveFix(uint256 bountyId)` - Approve submission and release payment
-
-### Sponsor Functions
-- `cancelBounty(uint256 bountyId)` - Cancel an open bounty
-- `refund(uint256 bountyId)` - Refund escrowed funds
-
-## 🧪 Testing
-
-Run the comprehensive test suite:
-
-```bash
-pnpm test
-```
-
-Tests cover:
-- Bounty creation and validation
-- Fix submission workflow
-- Curator approval and payment
-- Refund mechanisms
-- Access control
-- Full lifecycle scenarios
-
 ## 🛠️ Tech Stack
 
 **Blockchain**
@@ -215,7 +154,3 @@ BugBountyX/
 - [Polygon Amoy Faucet](https://faucet.polygon.technology/)
 - [Polygon Amoy Explorer](https://amoy.polygonscan.com/)
 - [WalletConnect Project ID](https://cloud.walletconnect.com/)
-
-## 📄 License
-
-ISC
