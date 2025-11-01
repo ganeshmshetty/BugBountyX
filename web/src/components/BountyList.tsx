@@ -60,7 +60,7 @@ export function BountyList({ onSelectBounty }: BountyListProps) {
   return (
     <div className="bounty-list-container">
       <div className="section">
-        <h2>📋 All Bounties</h2>
+        <h2>All Bounties</h2>
         
         <div className="filter-controls">
           <button
@@ -91,7 +91,6 @@ export function BountyList({ onSelectBounty }: BountyListProps) {
 
         {validBounties.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-state-icon">🔍</div>
             <p>No bounties found</p>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
               {filterStatus !== 'all' 
