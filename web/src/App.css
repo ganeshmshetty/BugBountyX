@@ -797,7 +797,6 @@ button:disabled {
 
 .connect-prompt {
   background: transparent;
-  border: 1px solid rgba(229, 231, 235, 0.1);
   border-radius: 12px;
   padding: 2.5rem;
   text-align: center;

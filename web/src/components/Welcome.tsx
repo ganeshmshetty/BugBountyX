@@ -13,14 +13,13 @@ export function Welcome() {
             BugBountyX
           </h1>
           <p className="welcome-subtitle">
-            Web3 Bug Bounty Platform on Polygon Amoy Testnet
+            Web3 Bug Bounty Platform
           </p>
         </div>
 
         <div className="welcome-actions">
           <div className="connect-prompt">
             <h3>Ready to get started?</h3>
-            <p>Connect your wallet to create bounties, submit fixes, or approve submissions</p>
             <div className="connect-button-wrapper">
               <ConnectButton />
             </div>
