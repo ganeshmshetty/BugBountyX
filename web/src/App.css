@@ -738,12 +738,14 @@ button:disabled {
 .tab-button:hover {
   color: var(--text);
   background-color: rgba(229, 231, 235, 0.05);
+  border-radius: 8px 8px 0 0;
 }
 
 .tab-button.active {
   color: var(--primary);
   border-bottom-color: var(--primary);
-  background-color: transparent;
+  background-color: rgba(229, 231, 235, 0.05);
+  border-radius: 8px 8px 0 0;
 }
 
 .tab-button:focus {
