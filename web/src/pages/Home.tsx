@@ -58,13 +58,13 @@ export function Home() {
           className={`tab-button ${activeTab === 'browse' ? 'active' : ''}`}
           onClick={() => setActiveTab('browse')}
         >
-          Browse Bounties
+          Browse
         </button>
         <button
           className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
           onClick={() => setActiveTab('create')}
         >
-          Create Bounty
+          Create
         </button>
         <button
           className={`tab-button ${activeTab === 'submit' ? 'active' : ''}`}
@@ -77,7 +77,7 @@ export function Home() {
             className={`tab-button ${activeTab === 'curator' ? 'active' : ''}`}
             onClick={() => setActiveTab('curator')}
           >
-            Curator Panel
+            Curator
           </button>
         )}
       </div>
@@ -85,10 +85,9 @@ export function Home() {
       {activeTab === 'browse' && (
         <>
           <div className="section">
-            <h2>View Bounty Details</h2>
             <div className="bounty-viewer">
               <div className="form-group inline">
-                <label htmlFor="viewBountyId">Bounty ID:</label>
+                <label htmlFor="viewBountyId">Search</label>
                 <input
                   id="viewBountyId"
                   type="number"
