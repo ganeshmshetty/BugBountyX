@@ -60,7 +60,7 @@ export function Welcome() {
               </div>
               <h3>Submit Report</h3>
               <p>
-                Submit vulnerability reports via the dApp with detailed descriptions, proof, and impact assessment. Reports are stored on-chain with metadata on IPFS.
+                Submit vulnerability reports via the dApp with detailed descriptions, proof, and impact assessment.
               </p>
               <ul>
                 <li>Submit detailed vulnerability reports</li>
