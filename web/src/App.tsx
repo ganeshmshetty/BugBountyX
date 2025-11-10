@@ -3,6 +3,7 @@ import { useAccount } from 'wagmi';
 import { Home } from './pages/Home';
 import { Welcome } from './components/Welcome';
 import bugLogo from './assets/bug.png';
+import { Analytics } from "@vercel/analytics/next";
 import './App.css';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <main>
         <Home />
       </main>
+      <Analytics />
     </div>
   );
 }
